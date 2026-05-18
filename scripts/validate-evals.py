@@ -16,7 +16,17 @@ from typing import Any
 
 
 REQUIRED_FILES = [
+    ".github/ISSUE_TEMPLATE/bug_report.yml",
+    ".github/ISSUE_TEMPLATE/config.yml",
+    ".github/ISSUE_TEMPLATE/feature_request.yml",
+    ".github/PULL_REQUEST_TEMPLATE.md",
+    ".github/workflows/validate.yml",
+    ".gitignore",
+    "CODE_OF_CONDUCT.md",
+    "CONTRIBUTING.md",
     "SKILL.md",
+    "SECURITY.md",
+    "NOTICE",
     "agents/openai.yaml",
     "references/companion-skill-map.md",
     "references/design-quality-rubric.md",
@@ -319,6 +329,79 @@ def validate_license(root: Path) -> list[str]:
     return []
 
 
+def validate_public_repo_docs(root: Path) -> list[str]:
+    errors: list[str] = []
+    public_doc_paths = [
+        "README.md",
+        "CONTRIBUTING.md",
+        ".github/workflows/validate.yml",
+        ".github/PULL_REQUEST_TEMPLATE.md",
+        "NOTICE",
+        ".gitignore",
+    ]
+    if any(not (root / rel).exists() for rel in public_doc_paths):
+        return errors
+
+    readme = read_text(root / "README.md")
+    contributing = read_text(root / "CONTRIBUTING.md")
+    workflow = read_text(root / ".github/workflows/validate.yml")
+    pr_template = read_text(root / ".github/PULL_REQUEST_TEMPLATE.md")
+    notice = read_text(root / "NOTICE")
+    gitignore = read_text(root / ".gitignore")
+
+    required_readme_fragments = [
+        "npx skills add srinitude/design-orchestrator",
+        "actions/workflows/validate.yml",
+        "scripts/validate-evals.py evals/routing-and-quality-evals.json",
+        "CONTRIBUTING.md",
+        "SECURITY.md",
+        "Apache License, Version 2.0",
+    ]
+    for fragment in required_readme_fragments:
+        if fragment not in readme:
+            errors.append(f"README.md: missing {fragment!r}")
+
+    required_contributing_fragments = [
+        "npx skills add srinitude/design-orchestrator",
+        "scripts/validate-evals.py --help",
+        "scripts/validate-evals.py evals/routing-and-quality-evals.json",
+        "standalone fallback behavior",
+    ]
+    for fragment in required_contributing_fragments:
+        if fragment not in contributing:
+            errors.append(f"CONTRIBUTING.md: missing {fragment!r}")
+
+    required_workflow_fragments = [
+        "skills-ref validate",
+        "python3 -m py_compile scripts/validate-evals.py",
+        "scripts/validate-evals.py --help",
+        "scripts/validate-evals.py evals/routing-and-quality-evals.json",
+        'npx skills add "$PWD" --list',
+        "enable-cache: false",
+    ]
+    for fragment in required_workflow_fragments:
+        if fragment not in workflow:
+            errors.append(f".github/workflows/validate.yml: missing {fragment!r}")
+
+    required_pr_checks = [
+        "skills-ref validate",
+        "python3 -m py_compile scripts/validate-evals.py",
+        "scripts/validate-evals.py --help",
+        "scripts/validate-evals.py evals/routing-and-quality-evals.json",
+        'npx skills add "$PWD" --list',
+    ]
+    for fragment in required_pr_checks:
+        if fragment not in pr_template:
+            errors.append(f".github/PULL_REQUEST_TEMPLATE.md: missing {fragment!r}")
+
+    if "Design Orchestrator" not in notice or "Copyright 2026" not in notice:
+        errors.append("NOTICE: missing project name or copyright year")
+    for ignored in ("__pycache__/", "*.py[cod]", ".DS_Store", ".env", "node_modules/"):
+        if ignored not in gitignore:
+            errors.append(f".gitignore: missing {ignored!r}")
+    return errors
+
+
 def validate_links(root: Path) -> list[str]:
     errors: list[str] = []
     link_pattern = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
@@ -357,6 +440,7 @@ def validate_repo(eval_path: Path) -> list[str]:
     errors.extend(validate_openai_yaml(root))
     errors.extend(validate_examples(root))
     errors.extend(validate_license(root))
+    errors.extend(validate_public_repo_docs(root))
     errors.extend(validate_links(root))
     return errors
 
