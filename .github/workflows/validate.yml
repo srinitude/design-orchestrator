@@ -27,6 +27,8 @@ jobs:
 
       - name: Set up uv
         uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: false
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
