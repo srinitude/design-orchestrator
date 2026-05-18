@@ -1,0 +1,334 @@
+{
+  "skill_name": "design-orchestrator",
+  "schema_version": "1.0.0",
+  "canonical_route_ids": [
+    "product-ui-design",
+    "static-visual-artifact",
+    "brand-in-product-direction",
+    "visual-reference-or-prompt",
+    "design-critique",
+    "image-to-code-or-reference-extraction",
+    "implementation-handoff-qa"
+  ],
+  "canonical_artifacts": [
+    "design-brief",
+    "journey-map",
+    "visual-direction",
+    "screen-or-component-spec",
+    "design-system-notes",
+    "implementation-handoff",
+    "qa-checklist"
+  ],
+  "phase_ids": [
+    "intent",
+    "research",
+    "journey",
+    "visual-direction",
+    "artifact-generation",
+    "critique",
+    "implementation-handoff-qa"
+  ],
+  "evals": [
+    {
+      "id": "route-product-ui-mobile-onboarding",
+      "type": "routing",
+      "prompt": "Design a mobile onboarding flow and first dashboard for a habit app for nurses working night shifts. I want a written spec, not generated images.",
+      "expected_route_id": "product-ui-design",
+      "expected_artifacts": [
+        "design-brief",
+        "journey-map",
+        "visual-direction",
+        "screen-or-component-spec",
+        "design-system-notes",
+        "qa-checklist"
+      ],
+      "required_phases": [
+        "intent",
+        "research",
+        "journey",
+        "visual-direction",
+        "artifact-generation",
+        "critique"
+      ],
+      "required_sections": [
+        "Reference Notes",
+        "Design Brief",
+        "Journey Map",
+        "Visual Direction",
+        "Screen or Component Spec",
+        "Design System Notes",
+        "Critique",
+        "QA Checklist"
+      ],
+      "fallback_behavior": "continue_with_standalone_fallback",
+      "quality_checks": [
+        "platform is explicit",
+        "research appears before visual direction",
+        "accessibility is treated as a hard gate",
+        "generic modern-clean language is revised into specific choices"
+      ]
+    },
+    {
+      "id": "route-static-conference-poster",
+      "type": "routing",
+      "prompt": "Create the design direction for a conference poster announcing an AI safety workshop. I need hierarchy, composition, and a prompt I can give a visual model later.",
+      "expected_route_id": "static-visual-artifact",
+      "expected_artifacts": [
+        "design-brief",
+        "journey-map",
+        "visual-direction",
+        "design-system-notes",
+        "qa-checklist"
+      ],
+      "required_phases": [
+        "intent",
+        "research",
+        "journey",
+        "visual-direction",
+        "artifact-generation",
+        "critique"
+      ],
+      "required_sections": [
+        "Reference Notes",
+        "Design Brief",
+        "Viewer Path",
+        "Visual Direction",
+        "Message Hierarchy",
+        "Critique",
+        "QA Checklist"
+      ],
+      "fallback_behavior": "continue_with_standalone_fallback",
+      "quality_checks": [
+        "static artifacts use viewer path or message hierarchy instead of product journey",
+        "text is sparse and legible",
+        "composition has a clear focal order"
+      ]
+    },
+    {
+      "id": "route-brand-in-product-direction",
+      "type": "routing",
+      "prompt": "Shape a brand direction for a developer observability product and show how it should affect the product UI, docs, and onboarding.",
+      "expected_route_id": "brand-in-product-direction",
+      "expected_artifacts": [
+        "design-brief",
+        "visual-direction",
+        "design-system-notes",
+        "screen-or-component-spec",
+        "qa-checklist"
+      ],
+      "required_phases": [
+        "intent",
+        "research",
+        "visual-direction",
+        "artifact-generation",
+        "critique"
+      ],
+      "required_sections": [
+        "Reference Notes",
+        "Design Brief",
+        "Brand Direction",
+        "Product Translation",
+        "Design System Notes",
+        "Critique",
+        "QA Checklist"
+      ],
+      "fallback_behavior": "continue_with_standalone_fallback",
+      "quality_checks": [
+        "brand choices connect to product surfaces",
+        "palette is not a category reflex",
+        "tokens are optional YAML only when useful for handoff"
+      ]
+    },
+    {
+      "id": "route-visual-reference-prompts",
+      "type": "routing",
+      "prompt": "Give me three visual reference prompts for a premium web hero for a genomics data platform. Do not build anything.",
+      "expected_route_id": "visual-reference-or-prompt",
+      "expected_artifacts": [
+        "design-brief",
+        "visual-direction",
+        "qa-checklist"
+      ],
+      "required_phases": [
+        "intent",
+        "research",
+        "visual-direction",
+        "artifact-generation",
+        "critique"
+      ],
+      "required_sections": [
+        "Reference Notes",
+        "Visual Direction",
+        "Prompt Set",
+        "Critique"
+      ],
+      "fallback_behavior": "block_only_if_generation_is_strictly_required",
+      "quality_checks": [
+        "prompts are implementation-friendly",
+        "research informs visual direction",
+        "image generation is not performed unless explicitly requested"
+      ]
+    },
+    {
+      "id": "route-design-critique-existing-dashboard",
+      "type": "routing",
+      "prompt": "Critique this SaaS analytics dashboard screenshot and tell me what to fix first. Assume no implementation yet.",
+      "expected_route_id": "design-critique",
+      "expected_artifacts": [
+        "design-brief",
+        "qa-checklist"
+      ],
+      "required_phases": [
+        "intent",
+        "research",
+        "critique"
+      ],
+      "required_sections": [
+        "Reference Notes",
+        "Critique",
+        "Priority Fixes",
+        "QA Checklist"
+      ],
+      "fallback_behavior": "continue_with_standalone_fallback",
+      "quality_checks": [
+        "findings are ordered by severity",
+        "accessibility issues are hard blockers",
+        "recommendations are specific enough to act on"
+      ]
+    },
+    {
+      "id": "route-reference-extraction-to-system",
+      "type": "routing",
+      "prompt": "Analyze these landing page screenshots and extract the design system, tokens, and component rules so another agent can rebuild it.",
+      "expected_route_id": "image-to-code-or-reference-extraction",
+      "expected_artifacts": [
+        "design-brief",
+        "visual-direction",
+        "screen-or-component-spec",
+        "design-system-notes",
+        "implementation-handoff",
+        "qa-checklist"
+      ],
+      "required_phases": [
+        "intent",
+        "research",
+        "visual-direction",
+        "artifact-generation",
+        "critique",
+        "implementation-handoff-qa"
+      ],
+      "required_sections": [
+        "Reference Notes",
+        "Visual Extraction",
+        "Design System Notes",
+        "Component Spec",
+        "Implementation Handoff",
+        "Critique",
+        "QA Checklist"
+      ],
+      "fallback_behavior": "continue_with_standalone_fallback",
+      "quality_checks": [
+        "observed facts are separated from inference",
+        "handoff-critical details can use YAML",
+        "acceptance criteria are included"
+      ]
+    },
+    {
+      "id": "route-implementation-handoff-qa",
+      "type": "routing",
+      "prompt": "Turn this design direction into an implementation handoff and QA checklist for a React team. Include browser verification guidance.",
+      "expected_route_id": "implementation-handoff-qa",
+      "expected_artifacts": [
+        "implementation-handoff",
+        "qa-checklist"
+      ],
+      "required_phases": [
+        "intent",
+        "research",
+        "artifact-generation",
+        "critique",
+        "implementation-handoff-qa"
+      ],
+      "required_sections": [
+        "Reference Notes",
+        "Implementation Handoff",
+        "Acceptance Criteria",
+        "QA Checklist",
+        "Verification"
+      ],
+      "fallback_behavior": "state_rendering_limitation_and_continue_with_manual_qa",
+      "quality_checks": [
+        "browser or screenshot verification is required when implementation happens",
+        "manual QA is provided if rendering is unavailable",
+        "acceptance criteria are testable"
+      ]
+    },
+    {
+      "id": "quality-accessibility-hard-gate",
+      "type": "quality",
+      "prompt": "Design a compact pricing page for a low-vision audience. Keep it visually premium and mobile-friendly.",
+      "expected_route_id": "product-ui-design",
+      "expected_artifacts": [
+        "design-brief",
+        "visual-direction",
+        "screen-or-component-spec",
+        "qa-checklist"
+      ],
+      "required_phases": [
+        "intent",
+        "research",
+        "visual-direction",
+        "artifact-generation",
+        "critique"
+      ],
+      "required_sections": [
+        "Reference Notes",
+        "Accessibility",
+        "Visual Direction",
+        "Screen or Component Spec",
+        "Critique",
+        "QA Checklist"
+      ],
+      "fallback_behavior": "continue_with_standalone_fallback",
+      "quality_checks": [
+        "contrast and text sizing are explicit",
+        "focus states and keyboard navigation are specified",
+        "accessibility cannot be deferred to later"
+      ]
+    },
+    {
+      "id": "quality-anti-generic-visual-direction",
+      "type": "quality",
+      "prompt": "Make a modern clean landing page for an AI workflow product, but avoid the usual generic AI startup look.",
+      "expected_route_id": "product-ui-design",
+      "expected_artifacts": [
+        "design-brief",
+        "visual-direction",
+        "screen-or-component-spec",
+        "design-system-notes",
+        "qa-checklist"
+      ],
+      "required_phases": [
+        "intent",
+        "research",
+        "journey",
+        "visual-direction",
+        "artifact-generation",
+        "critique"
+      ],
+      "required_sections": [
+        "Reference Notes",
+        "Visual Direction",
+        "Anti-Generic Revision",
+        "Screen or Component Spec",
+        "Critique"
+      ],
+      "fallback_behavior": "continue_with_standalone_fallback",
+      "quality_checks": [
+        "one-note palettes are rejected",
+        "decorative orb or gradient defaults are rejected",
+        "card-heavy layouts require strong hierarchy or revision"
+      ]
+    }
+  ]
+}

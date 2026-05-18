@@ -1,0 +1,6 @@
+interface:
+  display_name: "Design Orchestrator"
+  short_description: "Route design work into shippable artifacts"
+  default_prompt: "Use $design-orchestrator to turn this design request into a routed brief, visual direction, critique, and QA-ready handoff."
+policy:
+  allow_implicit_invocation: true
