@@ -1,6 +1,6 @@
 # design-orchestrator
 
-[![skills.sh compatible](https://img.shields.io/badge/skills.sh-compatible-111111?style=flat-square)](https://skills.sh/s/srinitude/design-orchestrator)
+[![skills.sh](https://skills.sh/b/srinitude/design-orchestrator)](https://skills.sh/s/srinitude/design-orchestrator)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
 [![Validate](https://github.com/srinitude/design-orchestrator/actions/workflows/validate.yml/badge.svg)](https://github.com/srinitude/design-orchestrator/actions/workflows/validate.yml)
 
@@ -34,32 +34,39 @@ npx skills add srinitude/design-orchestrator --list
 ## Package Structure
 
 ```text
-.
-├── SKILL.md
-├── agents/
-│   └── openai.yaml
-├── evals/
-│   └── routing-and-quality-evals.json
-├── examples/
-│   ├── product-ui-output.md
-│   └── static-artifact-output.md
-├── references/
-│   ├── companion-skill-map.md
-│   ├── design-quality-rubric.md
-│   └── quality-gates.md
-└── scripts/
-    └── validate-evals.py
+design-orchestrator/
+|-- skills/
+|   `-- design-orchestrator/
+|       |-- agents/
+|       |   `-- openai.yaml
+|       |-- evals/
+|       |   `-- routing-and-quality-evals.json
+|       |-- examples/
+|       |   |-- product-ui-output.md
+|       |   `-- static-artifact-output.md
+|       |-- references/
+|       |   |-- companion-skill-map.md
+|       |   |-- design-quality-rubric.md
+|       |   `-- quality-gates.md
+|       |-- scripts/
+|       |   `-- validate-evals.py
+|       `-- SKILL.md
+|-- skills-lock.json
+|-- package.json
+|-- README.md
+|-- LICENSE
+`-- NOTICE
 ```
 
 ## Repository Files
 
 - [SKILL.md](SKILL.md): core skill instructions.
 - [agents/openai.yaml](agents/openai.yaml): optional OpenAI-facing skill metadata.
-- [references/companion-skill-map.md](references/companion-skill-map.md): optional companion capability routing examples.
-- [references/design-quality-rubric.md](references/design-quality-rubric.md): subjective design review rubric.
-- [references/quality-gates.md](references/quality-gates.md): hard gates and manual QA fallback.
-- [evals/routing-and-quality-evals.json](evals/routing-and-quality-evals.json): routing and quality eval cases.
-- [scripts/validate-evals.py](scripts/validate-evals.py): standard-library validation script.
+- [skills/design-orchestrator/references/companion-skill-map.md](skills/design-orchestrator/references/companion-skill-map.md): optional companion capability routing examples.
+- [skills/design-orchestrator/references/design-quality-rubric.md](skills/design-orchestrator/references/design-quality-rubric.md): subjective design review rubric.
+- [skills/design-orchestrator/references/quality-gates.md](skills/design-orchestrator/references/quality-gates.md): hard gates and manual QA fallback.
+- [skills/design-orchestrator/evals/routing-and-quality-evals.json](skills/design-orchestrator/evals/routing-and-quality-evals.json): routing and quality eval cases.
+- [skills/design-orchestrator/scripts/validate-evals.py](skills/design-orchestrator/scripts/validate-evals.py): standard-library validation script.
 - [examples/product-ui-output.md](examples/product-ui-output.md): product UI example output.
 - [examples/static-artifact-output.md](examples/static-artifact-output.md): static artifact example output.
 
@@ -75,15 +82,15 @@ If `skills-ref` is not installed, run the official reference implementation:
 
 ```bash
 git clone --depth 1 https://github.com/agentskills/agentskills /tmp/agentskills
-uv run --project /tmp/agentskills/skills-ref skills-ref validate "$PWD"
+uv run --project /tmp/agentskills/skills-ref skills-ref validate "$PWD/skills/design-orchestrator"
 ```
 
 Validate the bundled script and eval contract:
 
 ```bash
-python3 -m py_compile scripts/validate-evals.py
-scripts/validate-evals.py --help
-scripts/validate-evals.py evals/routing-and-quality-evals.json
+python3 -m py_compile skills/design-orchestrator/scripts/validate-evals.py
+skills/design-orchestrator/scripts/validate-evals.py --help
+skills/design-orchestrator/scripts/validate-evals.py skills/design-orchestrator/evals/routing-and-quality-evals.json
 ```
 
 Validate skills CLI discovery:
@@ -104,7 +111,7 @@ The same checks run in GitHub Actions for pushes and pull requests.
 
 Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening an issue or pull request.
 
-Keep changes focused on the portable Agent Skill package: `SKILL.md` for core behavior, `references/` for longer guidance, `evals/` for routing and quality cases, and `scripts/` for deterministic validation.
+Keep changes focused on the portable Agent Skill package: `skills/design-orchestrator/SKILL.md` for core behavior, `skills/design-orchestrator/references/` for longer guidance, `skills/design-orchestrator/evals/` for routing and quality cases, and `skills/design-orchestrator/scripts/` for deterministic validation.
 
 ## Security
 

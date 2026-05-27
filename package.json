@@ -1,0 +1,27 @@
+{
+  "name": "@srinitude/design-orchestrator",
+  "version": "0.1.0",
+  "description": "Use when a user asks to design, critique, route, improve, extract, prompt, validate, or hand off product UI, mobile or web screens, static visual artifacts, brand-in-product direct",
+  "license": "Apache-2.0",
+  "author": "Kiren Srinivasan <kiren@fantasymetals.com>",
+  "homepage": "https://github.com/srinitude/design-orchestrator#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/srinitude/design-orchestrator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/srinitude/design-orchestrator/issues"
+  },
+  "keywords": [
+    "agent-skill",
+    "skills.sh",
+    "design-orchestrator"
+  ],
+  "files": [
+    "skills/",
+    "skills-lock.json",
+    "LICENSE",
+    "NOTICE",
+    "README.md"
+  ]
+}

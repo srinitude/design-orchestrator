@@ -1,0 +1,14 @@
+{
+  "skills": [
+    {
+      "name": "design-orchestrator",
+      "version": "0.1.0",
+      "path": "skills/design-orchestrator",
+      "description": "Use when a user asks to design, critique, route, improve, extract, prompt, validate, or hand off product UI, mobile or web screens, static visual artifacts, brand-in-product direction, visual references, or implementation QA. Orchestrates design capabilities with standalone fallback and produces written design artifacts by default.",
+      "tags": [
+        "agent-skill",
+        "skills.sh"
+      ]
+    }
+  ]
+}

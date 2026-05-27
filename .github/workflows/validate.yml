@@ -38,13 +38,13 @@ jobs:
       - name: Validate skill package
         run: |
           git clone --depth 1 https://github.com/agentskills/agentskills /tmp/agentskills
-          uv run --project /tmp/agentskills/skills-ref skills-ref validate "$PWD"
+          uv run --project /tmp/agentskills/skills-ref skills-ref validate "$PWD/skills/design-orchestrator"
 
       - name: Validate scripts and evals
         run: |
-          python3 -m py_compile scripts/validate-evals.py
-          scripts/validate-evals.py --help
-          scripts/validate-evals.py evals/routing-and-quality-evals.json
+          python3 -m py_compile skills/design-orchestrator/scripts/validate-evals.py
+          skills/design-orchestrator/scripts/validate-evals.py --help
+          skills/design-orchestrator/scripts/validate-evals.py skills/design-orchestrator/evals/routing-and-quality-evals.json
 
       - name: Validate skills CLI discovery
         run: npx skills add "$PWD" --list
