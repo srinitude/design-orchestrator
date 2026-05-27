@@ -15,7 +15,7 @@ from pathlib import Path
 from typing import Any
 
 
-REQUIRED_FILES = [
+REQUIRED_REPO_FILES = [
     ".github/ISSUE_TEMPLATE/bug_report.yml",
     ".github/ISSUE_TEMPLATE/config.yml",
     ".github/ISSUE_TEMPLATE/feature_request.yml",
@@ -24,9 +24,16 @@ REQUIRED_FILES = [
     ".gitignore",
     "CODE_OF_CONDUCT.md",
     "CONTRIBUTING.md",
-    "SKILL.md",
     "SECURITY.md",
     "NOTICE",
+    "README.md",
+    "LICENSE",
+    "package.json",
+    "skills-lock.json",
+]
+
+REQUIRED_SKILL_FILES = [
+    "SKILL.md",
     "agents/openai.yaml",
     "references/companion-skill-map.md",
     "references/design-quality-rubric.md",
@@ -35,8 +42,6 @@ REQUIRED_FILES = [
     "scripts/validate-evals.py",
     "examples/product-ui-output.md",
     "examples/static-artifact-output.md",
-    "README.md",
-    "LICENSE",
 ]
 
 ROUTE_IDS = {
@@ -171,9 +176,9 @@ def parse_simple_openai_yaml(path: Path) -> dict[str, str]:
     return parsed
 
 
-def validate_required_files(root: Path) -> list[str]:
+def validate_required_files(root: Path, required_files: list[str]) -> list[str]:
     errors: list[str] = []
-    for rel in REQUIRED_FILES:
+    for rel in required_files:
         path = root / rel
         if not path.exists():
             errors.append(f"missing required file: {rel}")
@@ -352,7 +357,7 @@ def validate_public_repo_docs(root: Path) -> list[str]:
     required_readme_fragments = [
         "npx skills add srinitude/design-orchestrator",
         "actions/workflows/validate.yml",
-        "scripts/validate-evals.py evals/routing-and-quality-evals.json",
+        "skills/design-orchestrator/scripts/validate-evals.py skills/design-orchestrator/evals/routing-and-quality-evals.json",
         "CONTRIBUTING.md",
         "SECURITY.md",
         "Apache License, Version 2.0",
@@ -363,8 +368,8 @@ def validate_public_repo_docs(root: Path) -> list[str]:
 
     required_contributing_fragments = [
         "npx skills add srinitude/design-orchestrator",
-        "scripts/validate-evals.py --help",
-        "scripts/validate-evals.py evals/routing-and-quality-evals.json",
+        "skills/design-orchestrator/scripts/validate-evals.py --help",
+        "skills/design-orchestrator/scripts/validate-evals.py skills/design-orchestrator/evals/routing-and-quality-evals.json",
         "standalone fallback behavior",
     ]
     for fragment in required_contributing_fragments:
@@ -373,9 +378,9 @@ def validate_public_repo_docs(root: Path) -> list[str]:
 
     required_workflow_fragments = [
         "skills-ref validate",
-        "python3 -m py_compile scripts/validate-evals.py",
-        "scripts/validate-evals.py --help",
-        "scripts/validate-evals.py evals/routing-and-quality-evals.json",
+        "python3 -m py_compile skills/design-orchestrator/scripts/validate-evals.py",
+        "skills/design-orchestrator/scripts/validate-evals.py --help",
+        "skills/design-orchestrator/scripts/validate-evals.py skills/design-orchestrator/evals/routing-and-quality-evals.json",
         'npx skills add "$PWD" --list',
         "enable-cache: false",
     ]
@@ -385,9 +390,9 @@ def validate_public_repo_docs(root: Path) -> list[str]:
 
     required_pr_checks = [
         "skills-ref validate",
-        "python3 -m py_compile scripts/validate-evals.py",
-        "scripts/validate-evals.py --help",
-        "scripts/validate-evals.py evals/routing-and-quality-evals.json",
+        "python3 -m py_compile skills/design-orchestrator/scripts/validate-evals.py",
+        "skills/design-orchestrator/scripts/validate-evals.py --help",
+        "skills/design-orchestrator/scripts/validate-evals.py skills/design-orchestrator/evals/routing-and-quality-evals.json",
         'npx skills add "$PWD" --list',
     ]
     for fragment in required_pr_checks:
@@ -429,19 +434,21 @@ def validate_links(root: Path) -> list[str]:
 
 
 def validate_repo(eval_path: Path) -> list[str]:
-    root = eval_path.resolve().parents[1]
+    skill_root = eval_path.resolve().parents[1]
+    repo_root = skill_root.parents[1]
     errors: list[str] = []
-    errors.extend(validate_required_files(root))
+    errors.extend(validate_required_files(repo_root, REQUIRED_REPO_FILES))
+    errors.extend(validate_required_files(skill_root, REQUIRED_SKILL_FILES))
     try:
         errors.extend(validate_eval_file(eval_path))
     except ValidationError as exc:
         errors.append(str(exc))
-    errors.extend(validate_skill(root))
-    errors.extend(validate_openai_yaml(root))
-    errors.extend(validate_examples(root))
-    errors.extend(validate_license(root))
-    errors.extend(validate_public_repo_docs(root))
-    errors.extend(validate_links(root))
+    errors.extend(validate_skill(skill_root))
+    errors.extend(validate_openai_yaml(skill_root))
+    errors.extend(validate_examples(skill_root))
+    errors.extend(validate_license(repo_root))
+    errors.extend(validate_public_repo_docs(repo_root))
+    errors.extend(validate_links(repo_root))
     return errors
 
 

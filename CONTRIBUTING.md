@@ -7,10 +7,10 @@ Thanks for helping improve Design Orchestrator.
 Clone the repository, then validate the skill package from the repository root:
 
 ```bash
-skills-ref validate "$PWD"
-python3 -m py_compile scripts/validate-evals.py
-scripts/validate-evals.py --help
-scripts/validate-evals.py evals/routing-and-quality-evals.json
+skills-ref validate "$PWD/skills/design-orchestrator"
+python3 -m py_compile skills/design-orchestrator/scripts/validate-evals.py
+skills/design-orchestrator/scripts/validate-evals.py --help
+skills/design-orchestrator/scripts/validate-evals.py skills/design-orchestrator/evals/routing-and-quality-evals.json
 npx skills add "$PWD" --list
 ```
 
@@ -18,14 +18,14 @@ If `skills-ref` is not installed, run the official reference implementation:
 
 ```bash
 git clone --depth 1 https://github.com/agentskills/agentskills /tmp/agentskills
-uv run --project /tmp/agentskills/skills-ref skills-ref validate "$PWD"
+uv run --project /tmp/agentskills/skills-ref skills-ref validate "$PWD/skills/design-orchestrator"
 ```
 
 ## Contribution Guidelines
 
 - Keep the repository installable with `npx skills add srinitude/design-orchestrator`.
-- Keep `SKILL.md` focused on core routing behavior and non-obvious quality gates.
-- Put long-form design guidance in `references/`.
+- Keep `skills/design-orchestrator/SKILL.md` focused on core routing behavior and non-obvious quality gates.
+- Put long-form design guidance in `skills/design-orchestrator/references/`.
 - Put deterministic repeated logic in `scripts/`.
 - Keep eval cases realistic and tied to stable route IDs, artifact IDs, and phase IDs.
 - Preserve the standalone fallback behavior when companion capabilities are unavailable.

@@ -60,22 +60,22 @@ design-orchestrator/
 
 ## Repository Files
 
-- [SKILL.md](SKILL.md): core skill instructions.
-- [agents/openai.yaml](agents/openai.yaml): optional OpenAI-facing skill metadata.
+- [skills/design-orchestrator/SKILL.md](skills/design-orchestrator/SKILL.md): core skill instructions.
+- [skills/design-orchestrator/agents/openai.yaml](skills/design-orchestrator/agents/openai.yaml): optional OpenAI-facing skill metadata.
 - [skills/design-orchestrator/references/companion-skill-map.md](skills/design-orchestrator/references/companion-skill-map.md): optional companion capability routing examples.
 - [skills/design-orchestrator/references/design-quality-rubric.md](skills/design-orchestrator/references/design-quality-rubric.md): subjective design review rubric.
 - [skills/design-orchestrator/references/quality-gates.md](skills/design-orchestrator/references/quality-gates.md): hard gates and manual QA fallback.
 - [skills/design-orchestrator/evals/routing-and-quality-evals.json](skills/design-orchestrator/evals/routing-and-quality-evals.json): routing and quality eval cases.
 - [skills/design-orchestrator/scripts/validate-evals.py](skills/design-orchestrator/scripts/validate-evals.py): standard-library validation script.
-- [examples/product-ui-output.md](examples/product-ui-output.md): product UI example output.
-- [examples/static-artifact-output.md](examples/static-artifact-output.md): static artifact example output.
+- [skills/design-orchestrator/examples/product-ui-output.md](skills/design-orchestrator/examples/product-ui-output.md): product UI example output.
+- [skills/design-orchestrator/examples/static-artifact-output.md](skills/design-orchestrator/examples/static-artifact-output.md): static artifact example output.
 
 ## Validation
 
 Validate the skill package:
 
 ```bash
-skills-ref validate .
+skills-ref validate "$PWD/skills/design-orchestrator"
 ```
 
 If `skills-ref` is not installed, run the official reference implementation:
